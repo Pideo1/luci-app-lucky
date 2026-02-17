@@ -14,11 +14,6 @@ jobs:
       matrix:
         arch:
           - aarch64_generic
-          - i386_pentium-mmx
-          - loongarch64_generic
-          - mips_mips32
-          - mipsel_24kc
-          - mipsel_mips32
           - x86_64
 
     steps:
@@ -28,7 +23,7 @@ jobs:
       - name: Building packages
         uses: sbwml/openwrt-gh-action-sdk@go1.24
         env:
-          ARCH: ${{ matrix.arch }}-openwrt-24.10
+          ARCH: ${{ matrix.arch }}-openwrt-snapshot
           FEEDNAME: packages_ci
           PACKAGES: luci-app-lucky
           NO_REFRESH_CHECK: true
@@ -37,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.arch }}
-          path: bin/packages/${{ matrix.arch }}/packages_ci/*.ipk
+          path: bin/packages/${{ matrix.arch }}/packages_ci/*.apk
 
       - name: Upload packages
         uses: ncipollo/release-action@v1
